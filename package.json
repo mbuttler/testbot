@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootbot": "^1.0.12"
+    "bootbot": "^1.0.12",
+    "dotenv": "^4.0.0"
   }
 }

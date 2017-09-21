@@ -1,10 +1,11 @@
 'use strict';
 const BootBot = require('bootbot');
+require('dotenv').load();
 
 const bot = new BootBot({
-  accessToken: 'FB_ACCESS_TOKEN',
-  verifyToken: 'FB_VERIFY_TOKEN',
-  appSecret: 'FB_APP_SECRET'
+  accessToken: process.env.PAGE_ACCESS_TOKEN,
+  verifyToken: process.env.VERIFY_TOKEN,
+  appSecret: process.env.APP_SECRET
 });
 
 bot.on('message', (payload, chat) => {
