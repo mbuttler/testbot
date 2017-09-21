@@ -1,0 +1,14 @@
+{
+  "name": "newbot",
+  "version": "0.0.0",
+  "description": "JE test Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootbot": "^1.0.12"
+  }
+}
