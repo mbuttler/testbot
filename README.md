@@ -43,5 +43,6 @@
 7. In a new terminal tab or window run `node index.js`
 8. Check the boxes for **messages**, **messaging_postbacks**, **messaging_optins**, **message_deliveries**
 9. Verify and save.
+10. Subscribe your app to your page's events.
 
 That should work. Start chatting with your page.
