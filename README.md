@@ -31,7 +31,7 @@ This is a node application that uses the BootBot framework to make a
 5. Copy/paste the token in the `PAGE_ACCESS_TOKEN` in the `.env` file
 
 
-## All right, here's the trickiest part
+### All right, here's the trickiest part
 
 1. In your terminal, run `npm i -g ngrok` to make sure you have the most recent version of ngrok, which will allow Facebook to access your local host for as long as ngrok is running.
  - Important: If you close down ngrok you'll need to reset your webhook your webhook will die.
@@ -50,7 +50,7 @@ This is a node application that uses the BootBot framework to make a
 9. Click **Verify and save**.
 10. Subscribe your app to your page's events.
 
-## Develop that bot!
+### Develop that bot!
 In your terminal, run `npm i -g nodemon`. Nodemon allows you to save changes to your local development copy (what's running on localhost)
 
 When you go to boot your bot to work on development, run 'nodemon' in the root directory. It will automatically grab index.js and start rolling. Whenever you save, nodemon will reboot the app with your changes.
