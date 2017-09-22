@@ -2,6 +2,9 @@
 const BootBot = require('bootbot');
 require('dotenv').load();
 const echoModule = require('./modules/echo');
+const helpModule = require('./modules/help');
+const gifModule = require('./modules/gif');
+const getStartedModule = require('./modules/get_started');
 
 const bot = new BootBot({
   accessToken: process.env.PAGE_ACCESS_TOKEN,
@@ -9,36 +12,54 @@ const bot = new BootBot({
   appSecret: process.env.APP_SECRET
 });
 
+
+// Load Modules
 bot.module(echoModule);
+bot.module(helpModule);
+bot.module(gifModule);
+// bot.module(getStartedModule);
 
-const askName = (convo) => {
-  convo.ask(`Hello! What's your name?`, (payload, convo, data) => {
+bot.hear('Hello', (payload, chat) => {
+  chat.conversation((convo) => {
+    convo.sendTypingIndicator(1000).then(() => askLocation(convo));
+  });
+});
+
+//const askName = (convo) => {
+//  convo.ask(`Hello! What's your name?`, (payload, convo, data) => {
+//    const text = payload.message.text;
+//    convo.set('name', text);
+//    convo.say(`Oh, your name is ${text}`).then(() => askLocation(convo));
+//  });
+//};
+
+const askLocation = (convo) => {
+  convo.ask(`Where would you like the weather for?`, (payload, convo, data) => {
     const text = payload.message.text;
-    convo.set('name', text);
-    convo.say(`Oh, your name is ${text}`).then(() => askFavoriteFood(convo));
+    convo.set('city', text);
+    convo.say(`Got it, ${text}`).then(() => askProvince(convo));
+  });
+};
+const askProvince = (convo) => {
+  convo.ask(`Which Province?`, (payload, convo, data) => {
+    const text = payload.message.text;
+    convo.set('province', text);
+    convo.say(`Got it, ${text}`).then(() => askActivity(convo));
   });
 };
 
-const askFavoriteFood = (convo) => {
-  convo.ask(`What's your favorite food?`, (payload, convo, data) => {
-    const text = payload.message.text;
-    convo.set('food', text);
-    convo.say(`Got it, your favorite food is ${text}`).then(() => askGender(convo));
-  });
-};
-
-const askGender = (convo) => {
+const askActivity = (convo) => {
   convo.ask((convo) => {
     const buttons = [
-      { type: 'postback', title: 'Boy', payload: 'GENDER_MALE' },
-      { type: 'postback', title: 'Girl', payload: 'GENDER_FEMALE' },
-      { type: 'postback', title: 'I don\'t wanna say', payload: 'GENDER_UNKNOWN' }
+      { type: 'postback', title: 'Walk', payload: 'ACTIVITY_WALK' },
+      { type: 'postback', title: 'Run', payload: 'GENDER_FEMALE' },
+      { type: 'postback', title: 'Commute', payload: 'GENDER_UNKNOWN' }
     ];
-    convo.sendButtonTemplate(`Are you a boy or a girl?`, buttons);
+    convo.sendButtonTemplate(`What are you doing today?`, buttons);
   }, (payload, convo, data) => {
     const text = payload.message.text;
-    convo.set('gender', text);
-    convo.say(`Great, you are a ${text}`).then(() => askAge(convo));
+    convo.set('activity', text);
+    convo.say(`Great, you want to ${text}`).then(() => askAge(convo));
   }, [
     {
       event: 'postback',
@@ -47,9 +68,9 @@ const askGender = (convo) => {
       }
     },
     {
-      event: 'postback:GENDER_MALE',
+      event: 'postback:ACTIVITY_WALK',
       callback: (payload, convo) => {
-        convo.say('You said you are a Male').then(() => askAge(convo));
+        convo.say('Great').then(() => askWhen(convo));
       }
     },
     {
@@ -69,27 +90,23 @@ const askGender = (convo) => {
   ]);
 };
 
-const askAge = (convo) => {
-  convo.ask(`Final question. How old are you?`, (payload, convo, data) => {
+const askWhen = (convo) => {
+  convo.ask(`When do you want to go?`, (payload, convo, data) => {
     const text = payload.message.text;
-    convo.set('age', text);
+    convo.set('time', text);
     convo.say(`That's great!`).then(() => {
       convo.say(`Ok, here's what you told me about you:
-      - Name: ${convo.get('name')}
-      - Favorite Food: ${convo.get('food')}
-      - Gender: ${convo.get('gender')}
-      - Age: ${convo.get('age')}
+      - ${convo.get('city')}
+      - ${convo.get('province')}
+      - ${convo.get('activity')}
+      - Age: ${convo.get('time')}
       `);
       convo.end();
     });
   });
 };
 
-bot.hear('hello', (payload, chat) => {
-  chat.conversation((convo) => {
-    convo.sendTypingIndicator(1000).then(() => askName(convo));
-  });
-});
+
 
 bot.hear('hey', (payload, chat) => {
   chat.say('Hello friend', { typing: true }).then(() => (
@@ -144,4 +161,3 @@ bot.hear('convo', (payload, chat) => {
 
 
 bot.start();
-
