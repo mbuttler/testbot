@@ -5,6 +5,8 @@ const echoModule = require('./modules/echo');
 const helpModule = require('./modules/help');
 const gifModule = require('./modules/gif');
 const getStartedModule = require('./modules/get_started');
+const init = require('./modules/init');
+// const scraper = require('./modules/scraper')
 
 const bot = new BootBot({
   accessToken: process.env.PAGE_ACCESS_TOKEN,
@@ -17,7 +19,9 @@ const bot = new BootBot({
 bot.module(echoModule);
 bot.module(helpModule);
 bot.module(gifModule);
-// bot.module(getStartedModule);
+bot.module(init);
+// bot.module(scraper);
+
 
 bot.hear('Hello', (payload, chat) => {
   chat.conversation((convo) => {
@@ -33,6 +37,7 @@ bot.hear('Hello', (payload, chat) => {
 //  });
 //};
 
+// Extremely beta conversation
 const askLocation = (convo) => {
   convo.ask(`Where would you like the weather for?`, (payload, convo, data) => {
     const text = payload.message.text;
@@ -48,31 +53,36 @@ const askProvince = (convo) => {
   });
 };
 
+// This is a pre-built quick reply thing that came with BootBot. It only sort of works.
 const askActivity = (convo) => {
   convo.ask((convo) => {
     const buttons = [
       { type: 'postback', title: 'Walk', payload: 'ACTIVITY_WALK' },
-      { type: 'postback', title: 'Run', payload: 'GENDER_FEMALE' },
-      { type: 'postback', title: 'Commute', payload: 'GENDER_UNKNOWN' }
+      { type: 'postback', title: 'Run', payload: 'ACTIVITY_RUN' },
+      { type: 'postback', title: 'Commute', payload: 'ACTIVITY_COMMUTE' }
     ];
     convo.sendButtonTemplate(`What are you doing today?`, buttons);
   }, (payload, convo, data) => {
     const text = payload.message.text;
     convo.set('activity', text);
-    convo.say(`Great, you want to ${text}`).then(() => askAge(convo));
+    convo.say(`Great, you want to ${text}`).then(() => askWhen(convo));
   }, [
-    {
-      event: 'postback',
-      callback: (payload, convo) => {
-        convo.say('You clicked on a button').then(() => askAge(convo));
-      }
-    },
+    //{
+    //  event: 'postback',
+    //  callback: (payload, convo) => {
+    //    convo.say('You clicked on a button').then(() => askWhen(convo));
+    //  }
+    //},
     {
       event: 'postback:ACTIVITY_WALK',
       callback: (payload, convo) => {
+        convo.set('activity', "walk")
         convo.say('Great').then(() => askWhen(convo));
       }
-    },
+    }
+/*  You may only walk for now, my friend.
+
+,
     {
       event: 'quick_reply',
       callback: () => {}
@@ -84,35 +94,41 @@ const askActivity = (convo) => {
     {
       pattern: ['yes', /yea(h)?/i, 'yup'],
       callback: () => {
-        convo.say('You said YES!').then(() => askAge(convo));
+        convo.say('You said YES!').then(() => askWhen(convo));
       }
     }
+I hope that I didn't mess up this comment range too badly.
+
+    */
   ]);
 };
+
+// Ask when, then report everything back.
 
 const askWhen = (convo) => {
   convo.ask(`When do you want to go?`, (payload, convo, data) => {
     const text = payload.message.text;
     convo.set('time', text);
     convo.say(`That's great!`).then(() => {
-      convo.say(`Ok, here's what you told me about you:
-      - ${convo.get('city')}
-      - ${convo.get('province')}
-      - ${convo.get('activity')}
-      - Age: ${convo.get('time')}
-      `);
+      convo.say(`Ok, here's what you told me about you:` +
+      `You want the weather for ${convo.get('city')}, ${convo.get('province')}. \n\n` +
+      `Today you're going for a ${convo.get('activity')} at about ${convo.get('time')}`
+      );
       convo.end();
     });
   });
 };
 
 
+// pre-built test response for 'hey' instead of 'hello'
 
 bot.hear('hey', (payload, chat) => {
   chat.say('Hello friend', { typing: true }).then(() => (
     chat.say('So, I’m good at talking about the weather. Other stuff, not so good. If you need help just enter “help.”', { typing: true })
   ));
 });
+
+// another pre-built quick reply thing. I didn't pick the image. say 'color'
 
 bot.hear('color', (payload, chat) => {
   chat.say({
@@ -129,12 +145,16 @@ bot.hear('image', (payload, chat) => {
   });
 });
 
+// pre-built test for a button menu. Say 'button' to bring it up
+
 bot.hear('button', (payload, chat) => {
   chat.say({
     text: 'Select a button',
     buttons: [ 'Male', 'Female', `Don't wanna say` ]
   });
 });
+
+// pre-built for saying 'convo'
 
 bot.hear('convo', (payload, chat) => {
   chat.conversation(convo => {
@@ -158,6 +178,6 @@ bot.hear('convo', (payload, chat) => {
   });
 });
 
-
+// NOW START ZEE MACHINE!
 
 bot.start();

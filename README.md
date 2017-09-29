@@ -48,10 +48,13 @@ This is a node application that uses the BootBot framework to make a
 1. In a new terminal tab or window run `node index.js`
 1. Check the boxes for **messages**, **messaging_postbacks**, **messaging_optins**, **message_deliveries**
 1. Click **Verify and save**.
+1. Subscribe your app to your page's events.
+
+**Notes**
  - Important: If you close down ngrok you'll need to reset your webhook your webhook will die.
  - If your webhook dies, you'll need to set a new one up
  - To set up a new webhook, use the **Webhooks** link under the Products header and use the **Edit Subscription** button to reset your webhook
-1. Subscribe your app to your page's events.
+
 
 ### Develop that bot
 
