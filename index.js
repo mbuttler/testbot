@@ -178,6 +178,6 @@ bot.hear('convo', (payload, chat) => {
   });
 });
 
-// NOW START ZEE MACHINE!
+// Start the bot.
 
 bot.start();
