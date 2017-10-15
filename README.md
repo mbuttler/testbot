@@ -58,9 +58,9 @@ This is a node application that uses the BootBot framework to make a
 
 ### Develop that bot
 
-In your terminal, run `npm i -g nodemon`. Nodemon allows you to save changes to your local development copy (what's running on localhost)
+In your terminal, run `npm i -g nodemon`. Nodemon allows you to see changes to your local development copy on your machine, whereas `node index.js` doesn't watch for changes automatically.
 
-When you go to boot your bot to work on development, run 'nodemon' in the root directory. It will automatically grab index.js and start rolling. Whenever you save, nodemon will reboot the app with your changes.
+When you go to boot up your bot to work on development, run 'nodemon' in the root directory. It will automatically grab index.js and start rolling. Whenever you save, nodemon will reboot the app with your changes, which typically takes up to one second to take effect.
 
 
 
