@@ -4,9 +4,9 @@ require('dotenv').load();
 const echoModule = require('./modules/echo');
 const helpModule = require('./modules/help');
 const gifModule = require('./modules/gif');
-const getStartedModule = require('./modules/get_started');
+// const getStartedModule = require('./modules/get_started');
 const init = require('./modules/init');
-// const scraper = require('./modules/scraper')
+const scraper = require('./modules/scraper')
 
 const bot = new BootBot({
   accessToken: process.env.PAGE_ACCESS_TOKEN,
@@ -20,7 +20,7 @@ bot.module(echoModule);
 bot.module(helpModule);
 bot.module(gifModule);
 bot.module(init);
-// bot.module(scraper);
+bot.module(scraper);
 
 
 bot.hear('Hello', (payload, chat) => {
