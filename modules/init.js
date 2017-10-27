@@ -1,5 +1,4 @@
 'use strict';
 module.exports = (bot) => {
-    console.log('Nimbus is waking up...')
-
+  console.log('Nimbus is waking up...');
 };

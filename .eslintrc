@@ -5,9 +5,16 @@
         "node": true
 
     },
-    "extends": "eslint:recommended",
+    "extends": "airbnb",
     "rules": {
-        "no-unused-vars":  1,
-        "no-console": 0        
+        "no-unused-vars":  0,
+        "no-console": 0,        
+        "strict": 0,
+        "arrow-parens": 0,
+        "no-shadow": 0,
+        "no-use-before-define": 0,
+        "prefer-destructuring": 0,
+        "lines-around-directive": 0
+        
     }
 }

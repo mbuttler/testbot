@@ -3,11 +3,7 @@ const request = require('tinyreq');
 
 
 // Request (Scrape) the JS file related to Ottawa (Kanata-Orleans)
-request("http://weather.gc.ca/wxlink/site_js/s0000430_e.js", function (err, body) {
-    console.log(err || "-----------------Start of Scraped Data------------\n" 
-    + body);
-
-
-console.log('-----------------End of Scraped Data--------------');
-
+request('http://weather.gc.ca/wxlink/site_js/s0000430_e.js', (err, body) => {
+  console.log(err || `-----------------Start of Scraped Data------------\n ${body}`);
+  console.log('-----------------End of Scraped Data--------------');
 });
